@@ -168,13 +168,13 @@ return {
             -- require('mini.pairs').setup({})
             require('mini.surround').setup({
                 mappings = {
-                    add = 'Sa',            -- Add surrounding
-                    delete = 'Sd',         -- Delete surrounding
-                    find = 'Sf',           -- Find surrounding
-                    find_left = 'SF',      -- Find surrounding to the left
-                    highlight = 'Sh',      -- Highlight surrounding
-                    replace = 'Sr',        -- Replace surrounding
-                    update_n_lines = 'Sn', -- Update `n_lines`
+                    add = 'sa',            -- Add surrounding
+                    delete = 'sd',         -- Delete surrounding
+                    find = 'sf',           -- Find surrounding
+                    find_left = 'sF',      -- Find surrounding to the left
+                    highlight = 'sh',      -- Highlight surrounding
+                    replace = 'sc',        -- Replace surrounding
+                    update_n_lines = 'sn', -- Update `n_lines`
                 },
             })
         end,

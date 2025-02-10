@@ -31,11 +31,11 @@ local keybindings = {
     },
 
     ["mini.surround"] = {
-        ["Sa{motion}"] = "Add surrounding (e.g., Saiw( to surround word with parentheses)",
-        ["Sd"] = "Delete surrounding",
-        ["Sr"] = "Replace surrounding",
-        ["Sf"] = "Find surrounding forward",
-        ["SF"] = "Find surrounding backward",
+        ["sa{motion}"] = "Add surrounding (e.g., Saiw( to surround word with parentheses)",
+        ["sd"] = "Delete surrounding",
+        ["sc"] = "Replace surrounding",
+        ["sf"] = "Find surrounding forward",
+        ["sF"] = "Find surrounding backward",
     },
 
     ["telescope"] = {
