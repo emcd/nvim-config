@@ -13,11 +13,11 @@ local on_attach = function(client, bufnr)
 end
 
 vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
-  underline = true,
-  update_in_insert = false,
   severity_sort = true,
+  signs = true,
+  underline = false,
+  update_in_insert = false,
+  virtual_text = false,
 })
 
 lspconfig.pyright.setup({

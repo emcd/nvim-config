@@ -1,14 +1,52 @@
 return {
+
+    -- {
+    --     'ishan9299/nvim-solarized-lua',
+    --     -- lazy = false,  -- load during startup
+    --     -- priority = 1000,  -- load first to prevent flashing
+    --     config = function()
+    --         vim.g.solarized_italics = 0
+    --         vim.opt.background = 'dark'
+    --         vim.cmd([[colorscheme solarized]])
+    --     end,
+    -- },
+
+    -- {
+    --     'Tsuzat/NeoSolarized.nvim',
+    --     lazy = false, -- load during startup
+    --     priority = 1000,  -- load first to prevent flashing
+    --     config = function()
+    --         require('NeoSolarized').setup({
+    --             enable_italics = false,
+    --             style = 'dark',
+    --             transparent = false,
+    --             styles = {
+    --                 comments = { italic = false },
+    --                 keywords = { italic = false },
+    --                 string = { italic = false },
+    --             },
+    --         })
+    --         vim.cmd [[ colorscheme NeoSolarized ]]
+    --     end,
+    -- },
+
     {
-        'ishan9299/nvim-solarized-lua',
-        lazy = false,  -- load during startup
-        priority = 1000,  -- load first to prevent flashing
+        "craftzdog/solarized-osaka.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {},
         config = function()
-            vim.g.solarized_italics = 0
-            vim.opt.background = 'dark'
-            vim.cmd([[colorscheme solarized]])
+            require('solarized-osaka').setup({
+                transparent = false,
+                styles = {
+                    comments = { italic = false },
+                    keywords = { italic = false },
+                },
+            })
+            vim.cmd[[colorscheme solarized-osaka]]
         end,
     },
+
     {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
@@ -26,23 +64,33 @@ return {
                     'vim',
                     'yaml',
                 },
-                highlight = { enable = true },
+                highlight = {
+                    enable = true,
+                    additional_vim_regex_highlighting = false,
+                },
+                indent = {
+                    enable = true,
+                },
             })
         end
     },
+
     {
         'neovim/nvim-lspconfig',
         config = function()
             require('config.lsp')
         end
     },
+
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
             require('lualine').setup({
                 options = {
-                    theme = 'solarized_dark',
+                    -- theme = 'solarized_dark',
+                    -- theme = 'NeoSolarized',
+                    theme = 'solarized-osaka',
                     component_separators = { left = '|', right = '|'},
                     section_separators = { left = '', right = ''},
                 },
@@ -86,6 +134,7 @@ return {
             })
         end,
     },
+
     {
         'echasnovski/mini.nvim',
         version = false,    -- Use latest version
@@ -107,9 +156,9 @@ return {
             })
         end,
     },
+
     {
         'nvim-telescope/telescope.nvim',
-        branch = '0.1.x',
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
             local telescope = require('telescope')
@@ -121,4 +170,5 @@ return {
             vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
         end,
     },
+
 }

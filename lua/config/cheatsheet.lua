@@ -41,6 +41,12 @@ local keybindings = {
         ["<leader>ca"] = "Code action",
         ["gr"] = "Find references",
     },
+    ["Vim Regex Magic Levels"] = {
+        ["\\v"] = "Very magic: Most special chars don't need escaping ()|?+*",
+        ["\\m"] = "Magic (default): Some chars need escaping like () and |",
+        ["\\M"] = "Nomagic: Most chars are literal except ^ and $",
+        ["\\V"] = "Very nomagic: All chars literal except \\",
+    },
     ["Examples"] = {
         ["saiw("] = "Surround word with parentheses",
         ["sa2j}"] = "Surround 2 lines down with braces",
@@ -49,6 +55,7 @@ local keybindings = {
         ["gcaf"] = "Comment entire function",
         ["ci\""] = "Change inside quotes",
         ["daf"] = "Delete around function",
+        ["%s/\\v\"\"\"(\\S.*\\S)\"\"\"/''' \\1 '''/g"] = "Replace triple quotes and add internal padding",
     }
 }
 
