@@ -2,14 +2,14 @@ local lspconfig = require('lspconfig')
 
 local on_attach = function(client, bufnr)
   local opts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+  vim.keymap.set('n', '<leader>fr', vim.lsp.buf.references, opts)
+  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
 end
 
 vim.diagnostic.config({
@@ -18,6 +18,9 @@ vim.diagnostic.config({
   underline = false,
   update_in_insert = false,
   virtual_text = false,
+  float = {
+    source = 'always',
+  },
 })
 
 lspconfig.pyright.setup({

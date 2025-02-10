@@ -30,7 +30,14 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufRead' }, {
   end,
 })
 
+vim.g.python_indent = {
+    open_paren = 'shiftwidth()',
+    nested_paren = 'shiftwidth()',
+    continue = 'shiftwidth()',
+    closed_paren_align_last_line = false,
+}
+
 vim.cmd[[
-  autocmd BufEnter * :syntax sync fromstart
-  autocmd InsertLeave * :syntax sync fromstart
+    autocmd BufEnter * :syntax sync fromstart
+    autocmd InsertLeave * :syntax sync fromstart
 ]]

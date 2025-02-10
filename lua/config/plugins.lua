@@ -8,7 +8,7 @@ return {
         config = function()
             require('catppuccin').setup({
                 custom_highlights = function(C)
-                    -- match mode colors from lualine theme
+                    -- Match mode colors from lualine theme.
                     return {
                         CursorNormal = { bg = C.blue },
                         CursorInsert = { bg = C.green },
@@ -23,21 +23,24 @@ return {
                     miscs = {},
                 },
             })
-            vim.api.nvim_create_autocmd("ModeChanged", {
-                callback = function()
-                    local mode = vim.api.nvim_get_mode().mode
-                    local cursor_color = {
-                        n = "CursorNormal",
-                        i = "CursorInsert",
-                        v = "CursorVisual",
-                        V = "CursorVisual",
-                        [""] = "CursorVisual",  -- Ctrl+V visual block mode
-                        R = "CursorReplace",
-                        c = "CursorCommand",
-                    }
-                    vim.api.nvim_set_hl(0, "Cursor", { link = cursor_color[mode] or "CursorNormal" })
-                end,
-            })
+
+            -- TODO: Fix.
+            -- vim.api.nvim_create_autocmd("ModeChanged", {
+            --     callback = function()
+            --         local mode = vim.api.nvim_get_mode().mode
+            --         local cursor_color = {
+            --             n = "CursorNormal",
+            --             i = "CursorInsert",
+            --             v = "CursorVisual",
+            --             V = "CursorVisual",
+            --             [""] = "CursorVisual",
+            --             R = "CursorReplace",
+            --             c = "CursorCommand",
+            --         }
+            --         vim.api.nvim_set_hl(0, "Cursor", { link = cursor_color[mode] or "CursorNormal" })
+            --     end,
+            -- })
+
             vim.cmd.colorscheme 'catppuccin-macchiato'
         end
     },
@@ -77,6 +80,7 @@ return {
                 },
                 indent = {
                     enable = true,
+                    disable = { 'python' },
                 },
             })
         end
@@ -93,7 +97,7 @@ return {
         'mfussenegger/nvim-lint',
         config = function()
             require('lint').linters_by_ft = {
-                python = {'ruff'},
+                python = {'bandit', 'ruff'},
             }
             vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
                 callback = function()
@@ -124,7 +128,7 @@ return {
                             function()
                                 local parsers = require('nvim-treesitter.parsers')
                                 if not parsers.has_parser() then
-                                    return 'No TS'
+                                    return '(nil)'
                                 end
                                 local lang = parsers.get_parser():lang()
                                 return 'TS: ' .. lang
@@ -159,10 +163,20 @@ return {
         'echasnovski/mini.nvim',
         version = false,    -- Use latest version
         config = function()
-            require('mini.ai').setup({})
+            -- require('mini.ai').setup({})
             require('mini.comment').setup({})
             -- require('mini.pairs').setup({})
-            require('mini.surround').setup({})
+            require('mini.surround').setup({
+                mappings = {
+                    add = 'Sa',            -- Add surrounding
+                    delete = 'Sd',         -- Delete surrounding
+                    find = 'Sf',           -- Find surrounding
+                    find_left = 'SF',      -- Find surrounding to the left
+                    highlight = 'Sh',      -- Highlight surrounding
+                    replace = 'Sr',        -- Replace surrounding
+                    update_n_lines = 'Sn', -- Update `n_lines`
+                },
+            })
         end,
     },
 
@@ -173,9 +187,9 @@ return {
             local telescope = require('telescope')
             telescope.setup({})
             local builtin = require('telescope.builtin')
+            vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
             vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
             vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-            vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
             vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
         end,
     },

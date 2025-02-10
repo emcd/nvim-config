@@ -1,64 +1,83 @@
 local M = {}
 
 local keybindings = {
-    ["Telescope"] = {
-        ["<leader>ff"] = "Find files",
-        ["<leader>fg"] = "Live grep",
-        ["<leader>fb"] = "Browse buffers",
-        ["<leader>fh"] = "Help tags",
+
+    ["Builtin: Miscellaneous"] = {
+        ["g&"] = "Repeat last substitution on all lines",
+        ["g8"] = "Print hex value of bytes in UTF-8 character under cursor",
+        ["ge"] = "Go backwards to end of previous word",
+        ["gf"] = "Start editing file whose name is under cursor",
+        ["gq{motion}"] = "format text selected by motion",
+        ["z."] = "Redraw, cursor line at center of window, on first non-blank",
+        ["z="] = "Give spelling suggestions",
+        ["zH"] = "Scroll half screenwidth right (nowrap)",
+        ["zL"] = "Scroll half screenwidth left (nowrap)",
     },
-    ["mini.surround"] = {
-        ["sa{motion}"] = "Add surrounding (e.g., saiw( to surround word with parentheses)",
-        ["sd"] = "Delete surrounding",
-        ["sr"] = "Replace surrounding",
-        ["sf"] = "Find surrounding forward",
-        ["sF"] = "Find surrounding backward",
-    },
-    ["Quickfix Navigation"] = {
+
+    ["Builtin: Quickfix"] = {
         [":copen"] = "Open quickfix window",
         [":cclose"] = "Close quickfix window",
         [":cn[ext]"] = "Next quickfix item",
         [":cp[rev]"] = "Previous quickfix item",
         [":cc N"] = "Jump to Nth quickfix item",
         [":cdo {cmd}"] = "Execute command on each quickfix entry",
-        ["Ctrl-W Enter"] = "Open item in new split (from quickfix window)",
+        ["<C-W> Enter"] = "Open item in new split (from quickfix window)",
     },
-    ["LSP"] = {
-        ["gD"] = "Go to declaration",
-        ["gd"] = "Go to definition",
-        ["K"] = "Hover documentation",
-        ["gi"] = "Go to implementation",
-        ["<C-k>"] = "Signature help",
-        ["<leader>rn"] = "Rename symbol",
-        ["<leader>ca"] = "Code action",
-        ["gr"] = "Find references",
-    },
+
     ["mini.comment"] = {
         ["gcc"] = "Toggle comment for current line",
-        ["gc{motion}"] = "Toggle comment for motion (e.g., gcap for paragraph)",
-        ["gc"] = "Toggle comment (visual mode)",
+        ["gc{motion}"] = "Toggle comment for motion (e.g., gcip for paragraph)",
+        ["V{selection} gc"] = "Toggle comment",
     },
-    ["mini.ai text objects"] = {
-        ["a)"] = "Around parentheses (also b)",
-        ["i)"] = "Inside parentheses (also b)",
-        ["a]"] = "Around brackets",
-        ["i]"] = "Inside brackets",
-        ["a}"] = "Around braces (also B)",
-        ["i}"] = "Inside braces (also B)",
-        ["af"] = "Around function call",
-        ["if"] = "Inside function call",
-        ["a\""] = "Around quotes",
-        ["i\""] = "Inside quotes",
+
+    ["mini.surround"] = {
+        ["Sa{motion}"] = "Add surrounding (e.g., Saiw( to surround word with parentheses)",
+        ["Sd"] = "Delete surrounding",
+        ["Sr"] = "Replace surrounding",
+        ["Sf"] = "Find surrounding forward",
+        ["SF"] = "Find surrounding backward",
     },
+
+    ["telescope"] = {
+        ["<leader>fb"] = "Browse buffers",
+        ["<leader>ff"] = "Find files",
+        ["<leader>fg"] = "Live grep",
+        ["<leader>fh"] = "Help tags",
+    },
+
+    ["LSP"] = {
+        ["<C-k>"] = "Signature help",
+        ["K"] = "Hover documentation",
+        ["gD"] = "Go to declaration",
+        ["gd"] = "Go to definition",
+        ["gi"] = "Go to implementation",
+        ["<leader>ca"] = "Code action",
+        ["<leader>fr"] = "Find references",
+        ["<leader>rn"] = "Rename symbol",
+    },
+
+    -- ["text objects"] = {
+    --     ["a)"] = "Around parentheses (also b)",
+    --     ["i)"] = "Inside parentheses (also b)",
+    --     ["a]"] = "Around brackets",
+    --     ["i]"] = "Inside brackets",
+    --     ["a}"] = "Around braces (also B)",
+    --     ["i}"] = "Inside braces (also B)",
+    --     ["af"] = "Around function call",
+    --     ["if"] = "Inside function call",
+    --     ["a\""] = "Around quotes",
+    --     ["i\""] = "Inside quotes",
+    -- },
+
     ["Vim Regex Magic Levels"] = {
         ["\\v"] = "Very magic: Most special chars don't need escaping ()|?+*",
         ["\\m"] = "Magic (default): Some chars need escaping like () and |",
         ["\\M"] = "Nomagic: Most chars are literal except ^ and $",
         ["\\V"] = "Very nomagic: All chars literal except \\",
     },
+
     ["Examples"] = {
         ["saiw("] = "Surround word with parentheses",
-        ["sa2j}"] = "Surround 2 lines down with braces",
         ["sdf"] = "Delete surrounding function call",
         ["srb]"] = "Replace surrounding parentheses with brackets",
         ["gcaf"] = "Comment entire function",
@@ -66,6 +85,7 @@ local keybindings = {
         ["daf"] = "Delete around function",
         ["%s/\\v\"\"\"(\\S.*\\S)\"\"\"/''' \\1 '''/g"] = "Replace triple quotes and add internal padding",
     }
+
 }
 
 function M.show_keybindings()
@@ -75,7 +95,7 @@ function M.show_keybindings()
     vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')
     vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
     
-    local lines = {"# Neovim Keybindings Quick Reference", ""}
+    local lines = {"# Neovim Quick Reference", ""}
     
     for plugin, bindings in pairs(keybindings) do
         table.insert(lines, "## " .. plugin)
