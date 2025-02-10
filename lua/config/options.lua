@@ -15,11 +15,11 @@ vim.opt.hlsearch = true
 vim.opt.modeline = true
 vim.opt.modelines = 5
 vim.opt.inccommand = 'nosplit'
-vim.opt.guicursor = "n-v-c:block,i-ci-ve:block,r-cr:block,o:hor50"
-vim.opt.signcolumn = "yes:1"
+vim.opt.guicursor = 'n-v-c:block,i-ci-ve:block,r-cr:block,o:hor50'
+vim.opt.signcolumn = 'yes:1'
 
 vim.g.editorconfig = true
-vim.api.nvim_create_autocmd("BufRead", {
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufRead' }, {
   callback = function()
     if vim.b.editorconfig and vim.b.editorconfig.max_line_length then
       local max_length = tonumber(vim.b.editorconfig.max_line_length) + 1
