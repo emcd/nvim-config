@@ -20,6 +20,20 @@ vim.diagnostic.config({
   virtual_text = false,
 })
 
+local function goto_next_diagnostic()
+  vim.diagnostic.goto_next()
+  vim.diagnostic.open_float({ scope = 'line' })
+end
+
+local function goto_prev_diagnostic()
+  vim.diagnostic.goto_prev()
+  vim.diagnostic.open_float({ scope = 'line' })
+end
+
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { noremap=true, silent=true })
+vim.keymap.set('n', ']e', goto_next_diagnostic, { noremap=true, silent=true })
+vim.keymap.set('n', '[e', goto_prev_diagnostic, { noremap=true, silent=true })
+
 lspconfig.pyright.setup({
   on_attach = on_attach,
   settings = {

@@ -1,5 +1,48 @@
 return {
 
+    {
+        'catppuccin/nvim',
+        name = 'catppuccin',
+        -- lazy = false,
+        priority = 1000,
+        config = function()
+            require('catppuccin').setup({
+                custom_highlights = function(C)
+                    -- match mode colors from lualine theme
+                    return {
+                        CursorNormal = { bg = C.blue },
+                        CursorInsert = { bg = C.green },
+                        CursorVisual = { bg = C.mauve },
+                        CursorReplace = { bg = C.red },
+                        CursorCommand = { bg = C.peach },
+                    }
+                end,
+                styles = {
+                    comments = {},
+                    conditionals = {},
+                    miscs = {},
+                },
+            })
+            vim.api.nvim_create_autocmd("ModeChanged", {
+                callback = function()
+                    local mode = vim.api.nvim_get_mode().mode
+                    local cursor_color = {
+                        n = "CursorNormal",
+                        i = "CursorInsert",
+                        v = "CursorVisual",
+                        V = "CursorVisual",
+                        [""] = "CursorVisual",  -- Ctrl+V visual block mode
+                        R = "CursorReplace",
+                        c = "CursorCommand",
+                    }
+                    vim.api.nvim_set_hl(0, "Cursor", { link = cursor_color[mode] or "CursorNormal" })
+                end,
+            })
+            vim.cmd.colorscheme 'catppuccin-macchiato'
+        end
+    },
+
+    -- Note: Broken with Python syntax on WSL/wsltty.
     -- {
     --     'ishan9299/nvim-solarized-lua',
     --     -- lazy = false,  -- load during startup
@@ -10,42 +53,6 @@ return {
     --         vim.cmd([[colorscheme solarized]])
     --     end,
     -- },
-
-    -- {
-    --     'Tsuzat/NeoSolarized.nvim',
-    --     lazy = false, -- load during startup
-    --     priority = 1000,  -- load first to prevent flashing
-    --     config = function()
-    --         require('NeoSolarized').setup({
-    --             enable_italics = false,
-    --             style = 'dark',
-    --             transparent = false,
-    --             styles = {
-    --                 comments = { italic = false },
-    --                 keywords = { italic = false },
-    --                 string = { italic = false },
-    --             },
-    --         })
-    --         vim.cmd [[ colorscheme NeoSolarized ]]
-    --     end,
-    -- },
-
-    {
-        "craftzdog/solarized-osaka.nvim",
-        lazy = false,
-        priority = 1000,
-        opts = {},
-        config = function()
-            require('solarized-osaka').setup({
-                transparent = false,
-                styles = {
-                    comments = { italic = false },
-                    keywords = { italic = false },
-                },
-            })
-            vim.cmd[[colorscheme solarized-osaka]]
-        end,
-    },
 
     {
         'nvim-treesitter/nvim-treesitter',
@@ -88,11 +95,9 @@ return {
         config = function()
             require('lualine').setup({
                 options = {
-                    -- theme = 'solarized_dark',
-                    -- theme = 'NeoSolarized',
-                    theme = 'solarized-osaka',
                     component_separators = { left = '|', right = '|'},
                     section_separators = { left = '', right = ''},
+                    theme = 'catppuccin-macchiato',
                 },
                 sections = {
                     lualine_a = {'mode'},
@@ -143,7 +148,7 @@ return {
             require('mini.comment').setup({})
             -- require('mini.pairs').setup({})
             require('mini.surround').setup({
-                -- Customize mappings if desired (these are the defaults)
+                -- Defaults
                 mappings = {
                     add = 'sa',             -- Add surrounding
                     delete = 'sd',          -- Delete surrounding
