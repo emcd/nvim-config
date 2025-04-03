@@ -93,20 +93,20 @@ return {
         end
     },
 
-    {
-        'mfussenegger/nvim-lint',
-        config = function()
-            require('lint').linters_by_ft = {
-                python = {'bandit', 'ruff'},
-            }
-            vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-                callback = function()
-                  require('lint').try_lint()  -- linters_by_ft
-                  -- require('lint').try_lint('cspell')
-                end,
-            })
-        end
-    },
+    -- {
+    --     'mfussenegger/nvim-lint',
+    --     config = function()
+    --         require('lint').linters_by_ft = {
+    --             python = {'bandit', 'ruff'},
+    --         }
+    --         vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+    --             callback = function()
+    --               require('lint').try_lint()  -- linters_by_ft
+    --               -- require('lint').try_lint('cspell')
+    --             end,
+    --         })
+    --     end
+    -- },
 
     {
         'nvim-lualine/lualine.nvim',

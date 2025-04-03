@@ -23,30 +23,56 @@ vim.diagnostic.config({
     },
 })
 
-lspconfig.pyright.setup({
+local client_capabilities = {
     -- https://github.com/microsoft/pyright/issues/4652#issuecomment-1439119295
     -- https://github.com/astral-sh/ruff-lsp/issues/384#issuecomment-1992012227
     -- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#diagnosticTag
-    capabilities = {
-        textDocument = {
-            publishDiagnostics = {
-                tagSupport = {
-                    valueSet = { 2 },
-                },
+    textDocument = {
+        publishDiagnostics = {
+            tagSupport = {
+                valueSet = { 2 },
             },
         },
     },
-    on_attach = on_attach,
+}
+
+lspconfig.pyright.setup({
+    capabilities = client_capabilities,
+    on_attach = function(client, bufnr)
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+        on_attach(client, bufnr)
+    end,
     settings = {
-        -- pyright = { disableTaggedHints = true },
+        pyright = {
+            disableOrganizeImports = true,
+            -- disableTaggedHints = true,
+        },
         python = {
             analysis = {
                 autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
                 diagnosticMode = 'workspace',
+                useLibraryCodeForTypes = true,
             },
         },
     },
+})
+
+lspconfig.ruff.setup({
+    capabilities = capabilities,
+    on_attach = function(client, bufnr)
+        -- Pyright hover is more detailed.
+        client.server_capabilities.hoverProvider = false
+        on_attach(client, bufnr)
+        -- local opts = { noremap=true, silent=true, buffer=bufnr }
+        -- vim.keymap.set(
+        --     'n', '<leader>rf',
+        --     function()
+        --         vim.lsp.buf.code_action(
+        --             { context = { only = { "source.fixAll.ruff" } }, apply = true }
+        --         )
+        --     end, opts)
+    end,
 })
 
 lspconfig.rust_analyzer.setup({
