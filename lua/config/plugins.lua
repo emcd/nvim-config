@@ -45,18 +45,6 @@ return {
         end
     },
 
-    -- Note: Broken with Python syntax on WSL/wsltty.
-    -- {
-    --     'ishan9299/nvim-solarized-lua',
-    --     -- lazy = false,  -- load during startup
-    --     -- priority = 1000,  -- load first to prevent flashing
-    --     config = function()
-    --         vim.g.solarized_italics = 0
-    --         vim.opt.background = 'dark'
-    --         vim.cmd([[colorscheme solarized]])
-    --     end,
-    -- },
-
     {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
@@ -124,16 +112,16 @@ return {
                     lualine_c = { 'filename', },
                     lualine_x = {'encoding', 'filetype'}, -- {'fileformat'}
                     lualine_y = {
-                        {
-                            function()
-                                local parsers = require('nvim-treesitter.parsers')
-                                if not parsers.has_parser() then
-                                    return '(nil)'
-                                end
-                                local lang = parsers.get_parser():lang()
-                                return 'TS: ' .. lang
-                            end,
-                        },
+                        -- {
+                        --     function()
+                        --         local parsers = require('nvim-treesitter.parsers')
+                        --         if not parsers.has_parser() then
+                        --             return '(nil)'
+                        --         end
+                        --         local lang = parsers.get_parser():lang()
+                        --         return 'TS: ' .. lang
+                        --     end,
+                        -- },
                         {
                             function()
                                 local msg = '(nil)'
