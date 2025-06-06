@@ -34,6 +34,12 @@ local client_capabilities = {
             },
         },
     },
+    -- -- https://github.com/microsoft/pyright/issues/4635#issuecomment-1430177826
+    -- workspace = {
+    --     didChangeWatchedFiles = {
+    --         dynamicRegistration = true,
+    --     }
+    -- },
 }
 
 lspconfig.pyright.setup({
@@ -59,8 +65,12 @@ lspconfig.pyright.setup({
 })
 
 lspconfig.ruff.setup({
-    capabilities = capabilities,
+    capabilities = client_capabilities,
     on_attach = function(client, bufnr)
+        client.server_capabilities.documentFormattingProvider = false
+        -- Ruff range format of docstrings is annoying.
+        client.server_capabilities.documentRangeFormattingProvider = false
+        vim.bo[bufnr].formatexpr = ""
         -- Pyright hover is more detailed.
         client.server_capabilities.hoverProvider = false
         on_attach(client, bufnr)
