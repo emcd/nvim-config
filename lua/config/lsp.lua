@@ -23,6 +23,43 @@ vim.diagnostic.config({
     },
 })
 
+-- vim.g.rustaceanvim = {
+--     tools = {
+--         float_win_config = { border = 'rounded' },
+--     },
+--     server = {
+--         on_attach = on_attach,
+--         default_settings = {
+--             ['rust-analyzer'] = {
+--                 cargo = { allFeatures = true },
+--                 checkOnSave = { command = 'clippy' },
+--                 procMacro = { enable = true },
+--             },
+--         },
+--     },
+-- }
+vim.g.rustaceanvim = {
+    server = {
+        on_attach = on_attach,
+        default_settings = {
+            ['rust-analyzer'] = {
+                cargo = { allFeatures = true },
+
+                check = {
+                    command = 'clippy',       -- or 'check' / 'nextest' / etc.
+                    allTargets = true,        -- optional extras
+                    -- extraArgs = { '--workspace' },
+                },
+                -- checkOnSave = true,
+
+                procMacro = { enable = true },
+                diagnostics = { experimental = { enable = true } },
+            },
+        },
+    },
+}
+
+
 local client_capabilities = {
     -- https://github.com/microsoft/pyright/issues/4652#issuecomment-1439119295
     -- https://github.com/astral-sh/ruff-lsp/issues/384#issuecomment-1992012227
@@ -85,6 +122,6 @@ lspconfig.ruff.setup({
     end,
 })
 
-lspconfig.rust_analyzer.setup({
-    on_attach = on_attach,
-})
+-- lspconfig.rust_analyzer.setup({
+--     on_attach = on_attach,
+-- })

@@ -124,18 +124,18 @@ return {
                         -- },
                         {
                             function()
-                                local msg = '(nil)'
-                                local buf_clients = vim.lsp.get_active_clients()
-                                if next(buf_clients) == nil then
-                                    return msg
+                                local bufnr   = vim.api.nvim_get_current_buf()
+                                -- Works on NVIM ≥0.12; falls back gracefully on older builds
+                                local get     = vim.lsp.get_clients or vim.lsp.get_active_clients
+                                local clients = get({ bufnr = bufnr }) or get()
+                                if #clients == 0 then
+                                  return '(nil)'
                                 end
-                                local buf_client_names = {}
-                                for _, client in pairs(buf_clients) do
-                                    if client.attached_buffers[vim.api.nvim_get_current_buf()] then
-                                        table.insert(buf_client_names, client.name)
-                                    end
+                                local names = {}
+                                for _, client in ipairs(clients) do
+                                  table.insert(names, client.name)
                                 end
-                                return table.concat(buf_client_names, ', ')
+                                return table.concat(names, ', ')
                             end,
                             icon = 'LSP:',
                             -- color = { fg = '#ffffff', gui = 'bold' },
@@ -180,6 +180,26 @@ return {
             vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
             vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
         end,
+    },
+
+    -- {
+    --     -- Binary manager (installs rust-analyzer, codelldb, etc.)
+    --     'williamboman/mason.nvim',
+    --     dependencies = { 'williamboman/mason-lspconfig.nvim' },
+    --     config = function()
+    --       require('mason').setup()
+    --       require('mason-lspconfig').setup({
+    --           -- ensure_installed = { 'rust_analyzer' },
+    --       })
+    --     end,
+    -- },
+
+    -- Rust helper (plugin only – actual logic sits in lsp.lua)
+    {
+        'mrcjkb/rustaceanvim',
+        version = '*',
+        ft = { 'rust' },               -- lazy-load on Rust buffers
+        -- no init(), no config() here
     },
 
 }
